@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 // Middleware to verify JWT token
-const authMiddleware = (req, res, next) => {
+const protect = (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
@@ -28,10 +28,10 @@ const adminMiddleware = (req, res, next) => {
 };
 
 // Combined auth and admin check
-const authAdmin = [authMiddleware, adminMiddleware];
+const authAdmin = [protect, adminMiddleware];
 
 module.exports = {
-  authMiddleware,
+  protect,
   adminMiddleware,
   authAdmin
 };

@@ -81,5 +81,5 @@ app.get("/shipment/:id", auth, async (req, res) => {
   res.send(s);
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log("Server running"));
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

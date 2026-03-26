@@ -1,14 +1,26 @@
-import React from 'react';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Track from "./pages/Track";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Logistics Platform</h1>
-        <p>Welcome to the tracking system</p>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Track />} />
+        <Route path="/login" element={<Login />} />
+
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 

@@ -1,55 +1,33 @@
-import React, { useState } from 'react';
-import API from '../services/api';
+import { useState } from "react";
+import API from "../services/api";
 
-function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+export default function Login() {
+  const [form, setForm] = useState({ email: "", password: "" });
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    
+  const login = async () => {
     try {
-      const response = await API.post('/login', { email, password });
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('role', response.data.role);
-      // Redirect based on role
-      window.location.href = response.data.role === 'admin' ? '/admin' : '/track';
-    } catch (err) {
-      setError(err.response?.data || 'Login failed');
-    } finally {
-      setLoading(false);
+      const res = await API.post("/login", form);
+
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("role", res.data.role);
+
+      window.location.href = res.data.role === "admin" ? "/admin" : "/";
+    } catch {
+      alert("Login failed");
     }
   };
 
   return (
-    <div className="login-container">
+    <div style={{ padding: 20 }}>
       <h2>Login</h2>
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
-      </form>
+
+      <input placeholder="Email"
+        onChange={(e) => setForm({...form, email: e.target.value})} />
+
+      <input type="password" placeholder="Password"
+        onChange={(e) => setForm({...form, password: e.target.value})} />
+
+      <button onClick={login}>Login</button>
     </div>
   );
 }
-
-export default Login;
